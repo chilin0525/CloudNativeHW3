@@ -1,0 +1,72 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testinglab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testinglab
+  template:
+    metadata:
+      labels:
+        app: testinglab
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/chilin0525/cloudnative-hw3-frontend-system:0.0.1
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          workingDir: /app
+          ports:
+            - containerPort: 5173
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5173
+            initialDelaySeconds: 10
+            periodSeconds: 5
+        - name: backend
+          image: ghcr.io/chilin0525/cloudnative-hw3-backend-system:0.0.1
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          workingDir: /app
+          ports:
+            - containerPort: 8888
+          livenessProbe:
+            httpGet:
+              path: /api/v1/todos
+              port: 8888
+            initialDelaySeconds: 10
+            periodSeconds: 5
+        - name: mongodb
+          image: ghcr.io/chilin0525/cloudnative-hw3-mongodb:0.0.1
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          workingDir: /app
+          ports:
+            - containerPort: 27017
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 15
+            periodSeconds: 10
