@@ -1,5 +1,14 @@
 # Testing Lab
 
+## k8s execute
+
+```
+# build image
+$ docker compose build
+$ kubectl apply -f k8s/deployment.yaml
+$ kubectl apply -f k8s/service.yaml
+```
+
 ## Backend
 
 Fastify Server
