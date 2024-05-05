@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    image: cloudnative-hw3-frontend-system:0.0.1
+    # image: ghcr.io/chilin0525/cloudnative-hw3-frontend-system:0.0.1
+    ports:
+      - "5173:5173"
+    hostname: frontend
+    networks:
+      - hw3_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: cloudnative-hw3-backend-system:0.0.1
+    # image: ghcr.io/chilin0525/cloudnative-hw3-backend-system:0.0.1
+    ports:
+      - "8888:8888"
+    hostname: backend
+    networks:
+      - hw3_network
+
+  mongodb:
+    build:
+      context: .
+      dockerfile: docker/mongodb.Dockerfile
+    image: cloudnative-hw3-mongodb:0.0.1
+    # image: ghcr.io/chilin0525/cloudnative-hw3-mongodb:0.0.1
+    ports:
+      - "27017:27017"
+    hostname: mongodb
+    networks:
+      - hw3_network
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  hw3_network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local

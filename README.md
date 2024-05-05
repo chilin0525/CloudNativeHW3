@@ -1,5 +1,16 @@
 # Testing Lab
 
+## docker compose
+
+* 檔名: `docker-compose.yaml`
+* 可正常操作前端
+* 可正常寫入 DB
+* 重新啟動後 PV 資料還在
+
+```
+$ docker compose up --build
+```
+
 ## k8s execute
 
 ```

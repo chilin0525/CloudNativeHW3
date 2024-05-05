@@ -5,7 +5,9 @@ COPY ./backend .
 RUN cp .env.sample .env
 
 RUN npm install
+RUN npm run build
 
 EXPOSE 8888
 
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "start"]
+# CMD ["sleep", "2000"]
