@@ -8,8 +8,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "concurrently --raw \"tsc -w \" \"nodemon dist/index.js\"",
-    "prettier-check": "prettier --check 'backend/**/*.{js,ts}' && prettier --check 'frontend/**/*.{js,ts}'",
-    "format": "prettier --write 'backend/**/*.{js,ts}' && prettier --write 'frontend/**/*.{js,ts}'"
+    "prettier-check": "prettier --check '**/*.{js,ts}' && prettier --check '**/*.{js,ts}'",
+    "format": "prettier --write '**/*.{js,ts}' && prettier --write '**/*.{js,ts}'"
   },
   "keywords": [],
   "author": "",

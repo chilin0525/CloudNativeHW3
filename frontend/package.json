@@ -9,8 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "cy:test": "cypress run --headed --no-exit",
-    "prettier-check": "prettier --check 'backend/**/*.{js,ts}' && prettier --check 'frontend/**/*.{js,ts}'",
-    "format": "prettier --write 'backend/**/*.{js,ts}' && prettier --write 'frontend/**/*.{js,ts}'"
+    "prettier-check": "prettier --check '**/*.{js,ts}' && prettier --check '**/*.{js,ts}'",
+    "format": "prettier --write '**/*.{js,ts}' && prettier --write '**/*.{js,ts}'"
   },
   "dependencies": {
     "axios": "^1.6.8",
