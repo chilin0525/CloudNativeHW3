@@ -33,9 +33,10 @@ jobs:
     - name: Download previous coverage report
       uses: actions/download-artifact@v4
       with:
-        # name: coverage-report
+        name: coverage-report
         path: ./previous-coverage
-        # repository: CloudNativeHW3
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        repository: CloudNativeHW3
       continue-on-error: true # if not exist
 
     - name: Compare coverage reports
@@ -57,7 +58,7 @@ jobs:
       if: success() # only store if the job succeeds
       uses: actions/upload-artifact@v4
       with:
-        # name: coverage-report
+        name: coverage-report
         path: ./backend/coverage/coverage-summary.json
 
     # - name: Auto Format Code
