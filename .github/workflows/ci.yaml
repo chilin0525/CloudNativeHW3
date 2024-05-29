@@ -40,8 +40,9 @@ jobs:
     - name: Download artifact
       id: download-artifact
       uses: dawidd6/action-download-artifact@v3
-      name: coverage-report
-      path: ./previous-coverage
+      with:
+        name: coverage-report
+        path: ./previous-coverage
 
     - name: Compare coverage reports
       run: |
