@@ -36,12 +36,30 @@ jobs:
         name: current-coverage-report
         path: ./backend/coverage/coverage-summary.json
     
+    - name: Check for previous coverage report artifact
+      id: check-previous-artifact
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          });
+          const artifact = artifacts.data.artifacts.find(artifact => artifact.name === 'previous-coverage-report');
+          if (artifact) {
+            core.setOutput('exists', true);
+          } else {
+            core.setOutput('exists', false);
+          }
+
     - name: Download previous coverage report
+      if: steps.check-previous-artifact.outputs.exists == 'true'
       uses: actions/download-artifact@v2
       with:
         name: previous-coverage-report
         path: ./previous-coverage
-    
+
     - name: Compare coverage reports
       run: |
         if [ -f "./previous-coverage/coverage-summary.json" ]; then
