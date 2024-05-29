@@ -8,6 +8,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.CITOKEN }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -97,11 +99,6 @@ jobs:
       working-directory: frontend
       run: |
         npm run prettier-check || (npm run format && echo "FORMAT_NEEDED=true" >> $GITHUB_ENV)
-
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.CITOKEN }}
 
     # Stage changes and commit if formatting was applied
     - name: Commit changes
