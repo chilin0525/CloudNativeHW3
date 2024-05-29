@@ -65,32 +65,33 @@ jobs:
         name: coverage-report
         path: ./backend/coverage/coverage-summary.json
 
-    - name: Identify modified JS/TS files
+    - name: Initialize formatting flag
+      run: echo "FORMAT_NEEDED=false" >> $GITHUB_ENV
+
+    - name: Get changed files
       id: files
-      run: |
-        MODIFIED_FILES=$(git diff --name-only HEAD~1 -- '*.js' '*.ts' | grep -v 'node_modules/' 2>/dev/null || true)
-        if [ -z "$MODIFIED_FILES" ]; then
-          MODIFIED_FILES=$(find . -type f \( -iname "*.js" -o -iname "*.ts" \) ! -path "*/node_modules/*")
-        fi
+      uses: jitterbit/get-changed-files@v1
 
-        if [ ! -z "$MODIFIED_FILES" ]; then
-          echo "FILES=$MODIFIED_FILES" >> $GITHUB_ENV
-        fi
-        echo "::set-output name=files::$MODIFIED_FILES"
-
-    - name: Check if JS/TS files are formatted
-      if: steps.files.outputs.files
+    # Check and format backend code
+    - name: Check and Format Backend Code
+      if: contains(steps.files.outputs.all, 'backend/')
+      working-directory: backend
       run: |
-        npx prettier --check ${{ env.FILES }}
+        npm run prettier-check || (npm run format && echo "FORMAT_NEEDED=true" >> $GITHUB_ENV)
 
-    - name: Format JS/TS files
-      if: steps.files.outputs.files
+    # Check and format frontend code
+    - name: Check and Format Frontend Code
+      if: contains(steps.files.outputs.all, 'frontend/')
+      working-directory: frontend
       run: |
-        npx prettier --write ${{ env.FILES }}
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        git add ${{ env.FILES }}
-        git commit -m 'Format JavaScript and TypeScript code'
-        git push{ env.FILES }}
-        git commit -m 'Format JavaScript and TypeScript code'
+        npm run prettier-check || (npm run format && echo "FORMAT_NEEDED=true" >> $GITHUB_ENV)
+
+    # Stage changes and commit if formatting was applied
+    - name: Commit changes
+      if: env.FORMAT_NEEDED == 'true'
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git add -A
+        git commit -m "chore: format code"
         git push
