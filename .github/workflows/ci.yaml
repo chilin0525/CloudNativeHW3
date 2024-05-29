@@ -48,16 +48,16 @@ jobs:
       working-directory: backend
       run: npx prettier --write .
 
-    - name: Commit changes
-      if: ${{ steps.coverage-check.outputs.coverage < env.PREVIOUS_COVERAGE }}
-      working-directory: backend
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: Automated code formatting
-        file_pattern: backend/*
+    # - name: Commit changes
+    #   if: ${{ steps.coverage-check.outputs.coverage < env.PREVIOUS_COVERAGE }}
+    #   working-directory: backend
+    #   uses: stefanzweifel/git-auto-commit-action@v4
+    #   with:
+    #     commit_message: Automated code formatting
+    #     file_pattern: backend/*
 
-    - name: Upload Coverage Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: backend/coverage/
+    # - name: Upload Coverage Report
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: coverage-report
+    #     path: backend/coverage/
