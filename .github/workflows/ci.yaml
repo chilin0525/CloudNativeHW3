@@ -79,6 +79,10 @@ jobs:
       run: |
         npm run prettier-check || (npm run format && echo "FORMAT_NEEDED=true" >> $GITHUB_ENV)
 
+    - name: Install Dependencies
+      working-directory: frontend
+      run: npm install
+
     # Check and format frontend code
     - name: Check and Format Frontend Code
       if: contains(steps.files.outputs.all, 'frontend/')
