@@ -55,7 +55,7 @@ jobs:
     
     - name: Store current coverage report as previous for future comparison
       if: success() # only store if the job succeeds
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: ./backend/coverage/coverage-summary.json
