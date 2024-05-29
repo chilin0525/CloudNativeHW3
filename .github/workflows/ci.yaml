@@ -35,7 +35,7 @@ jobs:
       with:
         # name: coverage-report
         path: ./previous-coverage
-        repository: CloudNativeHW3
+        # repository: CloudNativeHW3
       continue-on-error: true # if not exist
 
     - name: Compare coverage reports
@@ -57,7 +57,7 @@ jobs:
       if: success() # only store if the job succeeds
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-report
+        # name: coverage-report
         path: ./backend/coverage/coverage-summary.json
 
     # - name: Auto Format Code
