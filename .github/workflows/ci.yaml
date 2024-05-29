@@ -30,12 +30,21 @@ jobs:
       working-directory: ./backend
       run: npm run test # Ensure this command configures Vitest to output coverage-summary.json in the backend/coverage folder
 
-    - name: Download previous coverage report
-      uses: actions/download-artifact@v4
-      with:
-        name: coverage-report
-        path: ./previous-coverage
-      continue-on-error: true # if not exist
+    # - name: Download previous coverage report
+    #   uses: actions/download-artifact@v4
+    #   with:
+    #     name: coverage-report
+    #     path: ./previous-coverage
+    #   continue-on-error: true # if not exist
+
+    - name: Download artifact
+      uses: actions/github-script@v6
+      continue-on-error: true
+      env:
+        WORKFLOW_FILENAME: ci.yml
+        ARTIFACT_NAME: coverage-report
+        # ARTIFACT_FILENAME: playwright-snapshots.zip
+        UNZIP_DIR: previous-coverage
 
     - name: Compare coverage reports
       run: |
