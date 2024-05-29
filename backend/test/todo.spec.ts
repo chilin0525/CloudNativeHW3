@@ -112,40 +112,40 @@ describe('Todo API Testing', () => {
   });
 
 
-  // test('Given a todo item which not exist to delete, when send DELETE request to /api/v1/todos\
-  //       then should response HTTP status code 404 and not exist text', async () => {
-  //   const todoId = '660fa2174a711070428ed00c';
+  test('Given a todo item which not exist to delete, when send DELETE request to /api/v1/todos\
+        then should response HTTP status code 404 and not exist text', async () => {
+    const todoId = '660fa2174a711070428ed00c';
 
-  //   const modifyResult: ModifyResult<Todo & { _id: mongoose.Types.ObjectId }> = {
-  //     value: null,
-  //     ok: 1,
-  //   };
-  //   vi.spyOn(TodoRepo, 'deleteTodoById').mockResolvedValue(null);
+    const modifyResult: ModifyResult<Todo & { _id: mongoose.Types.ObjectId }> = {
+      value: null,
+      ok: 1,
+    };
+    vi.spyOn(TodoRepo, 'deleteTodoById').mockResolvedValue(null);
 
-  //   const response = await server.inject({
-  //     method: 'DELETE',
-  //     url: `/api/v1/todos/${todoId}`,
-  //   });
+    const response = await server.inject({
+      method: 'DELETE',
+      url: `/api/v1/todos/${todoId}`,
+    });
 
-  //   expect(response.statusCode).toBe(404);
-  //   expect(response.json()).toEqual({ msg: `Not Found Todo:${todoId}` });
-  // });
+    expect(response.statusCode).toBe(404);
+    expect(response.json()).toEqual({ msg: `Not Found Todo:${todoId}` });
+  });
 
-  // test('Given a error to throw out when send DELETE request to /api/v1/todos, \
-  //       then should catch error and return error message in Error handling', async () => {
-  //   const todoId = '12660fa2174a711070428ed00c3'; 
-  //   const errorMessage = 'Database error';
+  test('Given a error to throw out when send DELETE request to /api/v1/todos, \
+        then should catch error and return error message in Error handling', async () => {
+    const todoId = '12660fa2174a711070428ed00c3'; 
+    const errorMessage = 'Database error';
 
-  //   vi.spyOn(TodoRepo, 'deleteTodoById').mockImplementation(async () => {
-  //     throw errorMessage;
-  //   });
+    vi.spyOn(TodoRepo, 'deleteTodoById').mockImplementation(async () => {
+      throw errorMessage;
+    });
 
-  //   const response = await server.inject({
-  //     method: 'DELETE',
-  //     url: `/api/v1/todos/${todoId}`,
-  //   });
+    const response = await server.inject({
+      method: 'DELETE',
+      url: `/api/v1/todos/${todoId}`,
+    });
 
-  //   expect(response.statusCode).toBe(500);
-  //   expect(response.payload).toBe(`[Server Error]: ${errorMessage}`);
-  // });
+    expect(response.statusCode).toBe(500);
+    expect(response.payload).toBe(`[Server Error]: ${errorMessage}`);
+  });
 })
