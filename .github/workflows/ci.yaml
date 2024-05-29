@@ -98,12 +98,17 @@ jobs:
       run: |
         npm run prettier-check || (npm run format && echo "FORMAT_NEEDED=true" >> $GITHUB_ENV)
 
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.CITOKEN }}
+
     # Stage changes and commit if formatting was applied
     - name: Commit changes
       if: env.FORMAT_NEEDED == 'true'
       run: |
-        git config --global user.email "github-actions[bot]"
-        git config --global user.name  'github-actions[bot]@users.noreply.github.com'
+        git config --global user.email github-actions
+        git config --global user.name github-actions@github.com
         git add -A
         git commit -m "chore: format code"
         git push
