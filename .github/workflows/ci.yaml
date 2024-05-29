@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        token: ${{ secrets.CITOKEN }}
+        token: ${{ secrets.CITOKEN || github.token }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
