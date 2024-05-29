@@ -10,7 +10,7 @@ on:
     types: [closed]
 
 jobs:
-  build-and-push:
+  cd-build-and-push:
     if: github.event.pull_request.merged == true 
     runs-on: ubuntu-latest
     steps:
@@ -36,12 +36,14 @@ jobs:
     - name: Set up Kubectl
       uses: azure/setup-kubectl@v1
 
-    # - name: Configure Kubernetes context
-    #   uses: azure/k8s-set-context@v1
-    #   with:
-    #     method: kubeconfig
-    #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
+    - name: Configure Kubernetes context
+      uses: azure/k8s-set-context@v1
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-    # - name: Deploy to Kubernetes
-    #   run: |
-    #     kubectl set image deployment/my-deployment my-container=ghcr.io/${{ github.repository_owner }}/my-application:latest --record
+    - name: Deploy to K8s
+      run: |
+        kubectl apply -f k8s/deploys.yaml
+        kubectl apply -f k8s/services.yaml
+        kubectl apply -f k8s/ingress.yaml
