@@ -101,11 +101,15 @@ jobs:
         npm run prettier-check || (npm run format && echo "FORMAT_NEEDED=true" >> $GITHUB_ENV)
 
     # Stage changes and commit if formatting was applied
+    # - name: Commit changes
+    #   if: env.FORMAT_NEEDED == 'true'
+    #   run: |
+    #     git config --global user.email github-actions
+    #     git config --global user.name github-actions@github.com
+    #     git add -A
+    #     git commit -m "chore: format code"
+    #     git push
     - name: Commit changes
-      if: env.FORMAT_NEEDED == 'true'
-      run: |
-        git config --global user.email github-actions
-        git config --global user.name github-actions@github.com
-        git add -A
-        git commit -m "chore: format code"
-        git push
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Automated Format
