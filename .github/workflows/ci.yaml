@@ -26,23 +26,42 @@ jobs:
       working-directory: backend
       run: npm install
 
-    - name: Run Tests and Collect Coverage
-      working-directory: backend
-      run: npm run test
+    - name: Run tests and generate coverage
+      run: npm run test # Make sure this command outputs coverage-summary.json in the coverage folder
 
-    - name: Check Coverage Drop
-      id: coverage-check
-      working-directory: backend
+    - name: Upload current coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: current-coverage-report
+        path: ./coverage/coverage-summary.json
+    
+    - name: Download previous coverage report
+      uses: actions/download-artifact@v2
+      with:
+        name: previous-coverage-report
+        path: ./previous-coverage
+    
+    - name: Compare coverage reports
       run: |
-        COVERAGE=$(grep -oP 'All files[^|]*\|\s+\K[\d\.]+' coverage/lcov-report/index.html)
-        echo "Coverage is $COVERAGE%"
-        echo "::set-output name=coverage::$COVERAGE"
-
-    - name: Fail if Coverage Decreases
-      if: ${{ steps.coverage-check.outputs.coverage < env.PREVIOUS_COVERAGE }}
-      run: |
-        echo "Test coverage has decreased."
-        exit 1
+        if [ -f "./previous-coverage/coverage-summary.json" ]; then
+          current=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
+          previous=$(jq '.total.lines.pct' ./previous-coverage/coverage-summary.json)
+          echo "Current Coverage: $current%"
+          echo "Previous Coverage: $previous%"
+          if [ $(echo "$current < $previous" | bc) -eq 1 ]; then
+            echo "Coverage has decreased!"
+            exit 1
+          fi
+        else
+          echo "Previous coverage report not found. Assuming first build and passing."
+        fi
+    
+    - name: Store current coverage report as previous for future comparison
+      if: success() # only store if the job succeeds
+      uses: actions/upload-artifact@v2
+      with:
+        name: previous-coverage-report
+        path: ./coverage/coverage-summary.json
 
     - name: Auto Format Code
       working-directory: backend
