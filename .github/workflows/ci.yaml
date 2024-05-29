@@ -36,7 +36,7 @@ jobs:
         name: coverage-report
         path: ./previous-coverage
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        repository: CloudNativeHW3
+        repository: chilin0525/CloudNativeHW3
       continue-on-error: true # if not exist
 
     - name: Compare coverage reports
