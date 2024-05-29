@@ -68,10 +68,11 @@ jobs:
     - name: Identify modified JS/TS files
       id: files
       run: |
-        MODIFIED_FILES=$(git diff --name-only HEAD~1 -- '*.js' '*.ts' 2>/dev/null || true)
+        MODIFIED_FILES=$(git diff --name-only HEAD~1 -- '*.js' '*.ts' | grep -v 'node_modules/' 2>/dev/null || true)
         if [ -z "$MODIFIED_FILES" ]; then
-          MODIFIED_FILES=$(find . -type f -iname "*.js" -o -iname "*.ts")
+          MODIFIED_FILES=$(find . -type f \( -iname "*.js" -o -iname "*.ts" \) ! -path "*/node_modules/*")
         fi
+
         if [ ! -z "$MODIFIED_FILES" ]; then
           echo "FILES=$MODIFIED_FILES" >> $GITHUB_ENV
         fi
@@ -80,7 +81,7 @@ jobs:
     - name: Check if JS/TS files are formatted
       if: steps.files.outputs.files
       run: |
-          npx prettier --check ${{ env.FILES }}
+        npx prettier --check ${{ env.FILES }}
 
     - name: Format JS/TS files
       if: steps.files.outputs.files
@@ -89,5 +90,7 @@ jobs:
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         git add ${{ env.FILES }}
+        git commit -m 'Format JavaScript and TypeScript code'
+        git push{ env.FILES }}
         git commit -m 'Format JavaScript and TypeScript code'
         git push
