@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/chilin0525/cloudnative-hw3-frontend-system:0.0.1
+          image: ghcr.io/chilin0525/cloudnative-hw3-frontend-system:0.0.2
           imagePullPolicy: Always
           resources:
             requests:
@@ -56,7 +56,7 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
         - name: backend
-          image: ghcr.io/chilin0525/cloudnative-hw3-backend-system:0.0.1
+          image: ghcr.io/chilin0525/cloudnative-hw3-backend-system:0.0.2
           imagePullPolicy: Always
           resources:
             requests:
@@ -75,7 +75,7 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
         - name: mongodb
-          image: ghcr.io/chilin0525/cloudnative-hw3-mongodb:0.0.1
+          image: ghcr.io/chilin0525/cloudnative-hw3-mongodb:0.0.2
           imagePullPolicy: Always
           resources:
             requests:

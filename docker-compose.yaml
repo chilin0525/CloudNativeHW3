@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: docker/frontend.Dockerfile
-    image: cloudnative-hw3-frontend-system:0.0.1
-    # image: ghcr.io/chilin0525/cloudnative-hw3-frontend-system:0.0.1
+    # image: cloudnative-hw3-frontend-system:0.0.1
+    image: ghcr.io/chilin0525/cloudnative-hw3-frontend-system:0.0.2
     ports:
       - "5173:5173"
     hostname: frontend
@@ -17,8 +17,8 @@ services:
     build:
       context: .
       dockerfile: docker/backend.Dockerfile
-    image: cloudnative-hw3-backend-system:0.0.1
-    # image: ghcr.io/chilin0525/cloudnative-hw3-backend-system:0.0.1
+    # image: cloudnative-hw3-backend-system:0.0.1
+    image: ghcr.io/chilin0525/cloudnative-hw3-backend-system:0.0.2
     ports:
       - "8888:8888"
     hostname: backend
@@ -29,8 +29,8 @@ services:
     build:
       context: .
       dockerfile: docker/mongodb.Dockerfile
-    image: cloudnative-hw3-mongodb:0.0.1
-    # image: ghcr.io/chilin0525/cloudnative-hw3-mongodb:0.0.1
+    # image: cloudnative-hw3-mongodb:0.0.1
+    image: ghcr.io/chilin0525/cloudnative-hw3-mongodb:0.0.2
     ports:
       - "27017:27017"
     hostname: mongodb
