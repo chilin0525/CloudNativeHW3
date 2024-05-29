@@ -30,16 +30,10 @@ jobs:
       working-directory: ./backend
       run: npm run test # Ensure this command configures Vitest to output coverage-summary.json in the backend/coverage folder
 
-    - name: Upload current coverage report
-      uses: actions/upload-artifact@v2
-      with:
-        name: current-coverage-report
-        path: ./backend/coverage/coverage-summary.json
-    
     - name: Download previous coverage report
       uses: actions/download-artifact@v4
       with:
-        name: previous-coverage-report
+        name: coverage-report
         path: ./previous-coverage
       continue-on-error: true # if not exist
 
@@ -62,7 +56,7 @@ jobs:
       if: success() # only store if the job succeeds
       uses: actions/upload-artifact@v2
       with:
-        name: previous-coverage-report
+        name: coverage-report
         path: ./backend/coverage/coverage-summary.json
 
     # - name: Auto Format Code
