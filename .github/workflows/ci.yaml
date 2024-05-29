@@ -26,22 +26,26 @@ jobs:
       working-directory: backend
       run: npm install
 
-    - name: Run tests and generate coverage
+    - name: Run tests and generate 
+      working-directory: backend
       run: npm run test # Make sure this command outputs coverage-summary.json in the coverage folder
 
     - name: Upload current coverage report
+      working-directory: backend
       uses: actions/upload-artifact@v2
       with:
         name: current-coverage-report
         path: ./coverage/coverage-summary.json
     
     - name: Download previous coverage report
+      working-directory: backend
       uses: actions/download-artifact@v2
       with:
         name: previous-coverage-report
         path: ./previous-coverage
     
-    - name: Compare coverage reports
+    - name: Compare coverage 
+      working-directory: backend
       run: |
         if [ -f "./previous-coverage/coverage-summary.json" ]; then
           current=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
