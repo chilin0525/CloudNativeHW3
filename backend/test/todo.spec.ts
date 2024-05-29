@@ -111,6 +111,8 @@ describe('Todo API Testing', () => {
         then should response HTTP status code 404 and not exist text', async () => {
     const todoId = '660fa2174a711070428ed00c'
 
+    const thisistestforautoformat = null
+
     const modifyResult: ModifyResult<Todo & { _id: mongoose.Types.ObjectId }> = {
       value: null,
       ok: 1
