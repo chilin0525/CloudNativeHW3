@@ -38,13 +38,10 @@ jobs:
     #   continue-on-error: true # if not exist
 
     - name: Download artifact
-      uses: actions/github-script@v6
-      continue-on-error: true
-      env:
-        WORKFLOW_FILENAME: ci.yml
-        ARTIFACT_NAME: coverage-report
-        # ARTIFACT_FILENAME: playwright-snapshots.zip
-        UNZIP_DIR: previous-coverage
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v3
+      name: coverage-report
+      path: ./previous-coverage
 
     - name: Compare coverage reports
       run: |
