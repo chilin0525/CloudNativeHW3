@@ -6,7 +6,7 @@ export default defineConfig({
     coverage: {
       enabled: true,
       reportsDirectory: 'coverage',
-      reporter: ['html', 'json', 'lcov', 'text-summary', 'json-summary'], // ensures multiple output formats
-    },
+      reporter: ['html', 'json', 'lcov', 'text-summary', 'json-summary'] // ensures multiple output formats
+    }
   }
 })
