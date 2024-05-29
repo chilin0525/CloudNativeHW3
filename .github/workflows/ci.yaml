@@ -65,9 +65,9 @@ jobs:
         name: previous-coverage-report
         path: ./backend/coverage/coverage-summary.json
 
-    - name: Auto Format Code
-      working-directory: backend
-      run: npx prettier --write .
+    # - name: Auto Format Code
+    #   working-directory: backend
+    #   run: npx prettier --write .
 
     # - name: Commit changes
     #   if: ${{ steps.coverage-check.outputs.coverage < env.PREVIOUS_COVERAGE }}
