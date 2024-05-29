@@ -26,29 +26,26 @@ jobs:
       working-directory: backend
       run: npm install
 
-    - name: Run tests and generate 
-      working-directory: backend
-      run: npm run test # Make sure this command outputs coverage-summary.json in the coverage folder
+    - name: Run tests and generate coverage
+      working-directory: ./backend
+      run: npm run test # Ensure this command configures Vitest to output coverage-summary.json in the backend/coverage folder
 
     - name: Upload current coverage report
-      working-directory: backend
       uses: actions/upload-artifact@v2
       with:
         name: current-coverage-report
-        path: ./coverage/coverage-summary.json
+        path: ./backend/coverage/coverage-summary.json
     
     - name: Download previous coverage report
-      working-directory: backend
       uses: actions/download-artifact@v2
       with:
         name: previous-coverage-report
         path: ./previous-coverage
     
-    - name: Compare coverage 
-      working-directory: backend
+    - name: Compare coverage reports
       run: |
         if [ -f "./previous-coverage/coverage-summary.json" ]; then
-          current=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
+          current=$(jq '.total.lines.pct' ./backend/coverage/coverage-summary.json)
           previous=$(jq '.total.lines.pct' ./previous-coverage/coverage-summary.json)
           echo "Current Coverage: $current%"
           echo "Previous Coverage: $previous%"
@@ -65,7 +62,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: previous-coverage-report
-        path: ./coverage/coverage-summary.json
+        path: ./backend/coverage/coverage-summary.json
 
     - name: Auto Format Code
       working-directory: backend
